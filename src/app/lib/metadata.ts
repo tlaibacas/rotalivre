@@ -1,15 +1,17 @@
-// lib/seo.ts
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { getLocale, getTranslations } from "next-intl/server";
 
 const SITE_URL = "https://rotalivre.com";
 
 export async function generateSiteMetadata(): Promise<Metadata> {
+  // Get the current locale and translations for metadata
   const locale = await getLocale();
   const t = await getTranslations({ locale, namespace: "meta" });
 
+  // Construct the full URL with locale
   const fullUrl = `${SITE_URL}/${locale}`;
 
+  // Define JSON-LD structured data for SEO
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Organization",
@@ -26,11 +28,14 @@ export async function generateSiteMetadata(): Promise<Metadata> {
 
   return {
     metadataBase: new URL(SITE_URL),
+
     title: {
       default: t("title.default"),
       template: `%s | ${t("title.template")}`,
     },
     description: t("description"),
+
+    // Configure Open Graph metadata for social sharing
     openGraph: {
       title: t("og.title"),
       description: t("og.description"),
@@ -47,6 +52,8 @@ export async function generateSiteMetadata(): Promise<Metadata> {
         },
       ],
     },
+
+    // Configure Twitter Card metadata
     twitter: {
       card: "summary_large_image",
       title: t("og.title"),
@@ -54,6 +61,7 @@ export async function generateSiteMetadata(): Promise<Metadata> {
       images: [`${SITE_URL}/og-image.jpg`],
       creator: "@rotalivre",
     },
+
     alternates: {
       canonical: fullUrl,
       languages: {
@@ -61,6 +69,8 @@ export async function generateSiteMetadata(): Promise<Metadata> {
         pt: `${SITE_URL}/pt`,
       },
     },
+
+    // Configure crawler and indexing behavior
     robots: {
       index: true,
       follow: true,
@@ -72,13 +82,21 @@ export async function generateSiteMetadata(): Promise<Metadata> {
         "max-video-preview": -1,
       },
     },
+
+    // Set favicon and apple touch icon
     icons: {
       icon: "/favicon.ico",
       apple: "/apple-touch-icon.png",
     },
-    themeColor: "#ffffff",
+
+    // Include JSON-LD structured data
     other: {
       "application/ld+json": JSON.stringify(jsonLd),
     },
   };
 }
+
+// Configure viewport settings
+export const viewport: Viewport = {
+  themeColor: "#ffffff",
+};
