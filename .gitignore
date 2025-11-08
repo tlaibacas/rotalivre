@@ -1,0 +1,39 @@
+# Dependências
+node_modules/
+
+# Build e saída
+dist/
+build/
+.next/
+out/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Ambiente local
+.env
+.env.local
+.env.*.local
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# Editor/IDE
+.vscode/
+.idea/
+*.swp
+
+# Testes e coverage
+coverage/
+*.lcov
+
+# Tipos gerados
+*.tsbuildinfo
+
+# Cache
+.cache/
+.next/cache/
